@@ -418,5 +418,50 @@
   </div>
 </footer>
 
+
+<script src="./site-config.js"></script>
+
+<script>
+  // Apply central studio configuration
+  const config = window.ARLEN_CONFIG;
+
+  if (config) {
+    document.title = config.name + " | " + config.description;
+
+    document.documentElement.style.setProperty(
+      "--bg", config.branding.background
+    );
+
+    document.documentElement.style.setProperty(
+      "--panel", config.branding.panel
+    );
+
+    document.documentElement.style.setProperty(
+      "--orange", config.branding.accent
+    );
+
+    document.documentElement.style.setProperty(
+      "--white", config.branding.text
+    );
+
+    document.documentElement.style.setProperty(
+      "--muted", config.branding.muted
+    );
+
+    document.documentElement.style.setProperty(
+      "--line", config.branding.border
+    );
+
+    const emailButton = document.querySelector(
+      'a[href^="mailto:"]'
+    );
+
+    if (emailButton) {
+      emailButton.href = "mailto:" + config.email;
+    }
+  }
+</script>
+</body>
+</html>
 </body>
 </html>
