@@ -180,23 +180,52 @@
       align-items: center;
     }
 
+    .about-showcase {
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
     .about-mark {
-      min-height: 290px;
+      min-height: 150px;
       display: grid;
       place-items: center;
-      background:
-        radial-gradient(circle, #f36b3220, transparent 65%),
-        var(--panel);
+      padding: 24px;
+      background: radial-gradient(circle, #f36b3220, transparent 65%), var(--panel);
       border: 1px solid var(--line);
     }
 
-    .about-mark strong {
-      font-size: clamp(65px, 10vw, 120px);
-      font-weight: 900;
-      letter-spacing: -8px;
+    .about-mark img {
+      display: block;
+      width: min(100%, 300px);
+      height: 105px;
+      object-fit: contain;
     }
 
-    .about-mark strong span { color: var(--orange); }
+    .featured-game-preview {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #101114;
+      border: 1px solid var(--line);
+    }
+
+    .featured-game-preview img,
+    .featured-game-preview video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #101114;
+    }
+
+    .preview-caption {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
 
     .games {
       background: #15161a;
@@ -204,11 +233,23 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .games-carousel-wrap {
+      position: relative;
+      margin-top: 38px;
+    }
+
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-      gap: 22px;
-      margin-top: 38px;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(270px, 340px);
+      grid-auto-columns: minmax(280px, 34%);
+      gap: 20px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--orange) var(--panel);
+      padding: 4px 2px 18px;
       align-items: stretch;
     }
 
@@ -217,33 +258,26 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      scroll-snap-align: start;
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 5px;
-      transition: transform .2s ease, border-color .2s ease;
     }
 
-    .game-card:hover {
-      transform: translateY(-4px);
-      border-color: #66331f;
-    }
-
-    .game-card .game-art {
-      display: block;
+    .game-card .game-preview {
       width: 100%;
       aspect-ratio: 16 / 9;
-      height: auto;
       object-fit: contain;
+      display: block;
       background: #101114;
     }
 
-    .game-card .game-card-body {
+    .game-card-body {
       display: flex;
       flex: 1;
       flex-direction: column;
       align-items: flex-start;
-      padding: 21px;
+      padding: 20px;
     }
 
     .game-card .status {
@@ -256,7 +290,7 @@
     }
 
     .game-card h3 {
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1.25;
       margin-bottom: 8px;
     }
@@ -268,8 +302,37 @@
     }
 
     .game-card .button {
-      margin-top: 20px;
-      padding: 11px 16px;
+      margin-top: auto;
+      padding: 10px 14px;
+      margin-top: 18px;
+    }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .carousel-controls button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--white);
+      padding: 9px 14px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .carousel-controls button:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .carousel-hint {
+      margin-right: auto;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .game-card .game-placeholder {
@@ -280,7 +343,6 @@
       color: var(--orange);
       font-weight: 900;
       font-size: 34px;
-      letter-spacing: -2px;
     }
 
     .contact-box {
@@ -319,6 +381,10 @@
 
     .footer-links a:hover { color: var(--orange); }
 
+    @media (min-width: 701px) and (max-width: 1050px) {
+      .games-grid { grid-auto-columns: minmax(42%, 1fr); }
+    }
+
     @media (max-width: 700px) {
       header { height: auto; padding: 20px 0; }
 
@@ -343,12 +409,17 @@
 
       .section { padding: 70px 0; }
 
-      .games-grid { grid-template-columns: 1fr; gap: 18px; }
+      .games-grid { grid-auto-columns: minmax(82%, 1fr); gap: 14px; }
+      .about-showcase { order: 2; }
 
       .contact-box { padding: 35px 20px; }
     }
 
     /* Mobile navigation: keep the header clean and move page links to the footer. */
+    @media (min-width: 701px) and (max-width: 1050px) {
+      .games-grid { grid-auto-columns: minmax(42%, 1fr); }
+    }
+
     @media (max-width: 700px) {
       .nav-links {
         display: none;
@@ -417,8 +488,16 @@
         </p>
       </div>
 
-      <div class="about-mark">
-        <strong>AR<span>F</span></strong>
+      <div class="about-showcase">
+        <div class="about-mark">
+          <img src="./assets/arlen-forge-logo.png" alt="ARLEN FORGE studio logo">
+        </div>
+        <div>
+          <div class="featured-game-preview" id="featured-game-preview">
+            <div class="game-placeholder">GAMEPLAY PREVIEW</div>
+          </div>
+          <div class="preview-caption" id="featured-game-caption">Select a game to preview gameplay</div>
+        </div>
       </div>
 
     </div>
@@ -435,8 +514,15 @@
         we are building at ARLEN FORGE.
       </p>
 
-<div class="games-grid" id="games-grid">
-  <p>Loading games...</p>
+<div class="games-carousel-wrap">
+  <div class="games-grid" id="games-grid" aria-label="Swipe through ARLEN FORGE games">
+    <p>Loading games...</p>
+  </div>
+  <div class="carousel-controls">
+    <span class="carousel-hint">Swipe or scroll to explore games</span>
+    <button type="button" id="games-prev" aria-label="Previous game">←</button>
+    <button type="button" id="games-next" aria-label="Next game">→</button>
+  </div>
 </div>
     </div>
   </section>
@@ -521,8 +607,30 @@
     }
   }
 
-  // Load games from the Pages CMS catalogue.
+  // Shared game catalogue powers the swipe carousel and the studio preview.
 const gamesContainer = document.getElementById("games-grid");
+const featuredPreview = document.getElementById("featured-game-preview");
+const featuredCaption = document.getElementById("featured-game-caption");
+
+function showFeaturedGame(game) {
+  if (!featuredPreview || !game) return;
+  featuredPreview.innerHTML = "";
+  const mediaPath = game.gameplayGif || game.image;
+  if (mediaPath) {
+    const media = document.createElement("img");
+    media.src = "./" + mediaPath;
+    media.alt = (game.title || "Game") + " gameplay preview";
+    media.loading = "lazy";
+    media.decoding = "async";
+    featuredPreview.appendChild(media);
+  } else {
+    const placeholder = document.createElement("div");
+    placeholder.className = "game-placeholder";
+    placeholder.textContent = "GAMEPLAY PREVIEW";
+    featuredPreview.appendChild(placeholder);
+  }
+  if (featuredCaption) featuredCaption.textContent = game.title || "Game preview";
+}
 
 if (gamesContainer) {
   fetch("./data/games.json")
@@ -532,7 +640,6 @@ if (gamesContainer) {
     })
     .then(games => {
       gamesContainer.innerHTML = "";
-
       if (!Array.isArray(games) || games.length === 0) {
         gamesContainer.textContent = "Games will be listed here soon.";
         return;
@@ -541,17 +648,17 @@ if (gamesContainer) {
       games.forEach((game, index) => {
         const card = document.createElement("article");
         card.className = "game-card";
+        card.dataset.gameIndex = index;
 
-        if (game.image) {
+        const mediaPath = game.gameplayGif || game.image;
+        if (mediaPath) {
           const image = document.createElement("img");
-          image.className = "game-art";
-          image.src = "./" + game.image;
-          image.alt = (game.title || "Game") + " artwork";
-          image.loading = "lazy";
+          image.className = "game-preview";
+          image.src = "./" + mediaPath;
+          image.alt = (game.title || "Game") + (game.gameplayGif ? " gameplay preview" : " cover artwork");
+          image.loading = index === 0 ? "eager" : "lazy";
           image.decoding = "async";
-          image.fetchPriority = "low";
-          image.width = 640;
-          image.height = 360;
+          if (index === 0) image.fetchPriority = "high";
           card.appendChild(image);
         } else {
           const placeholder = document.createElement("div");
@@ -593,8 +700,34 @@ if (gamesContainer) {
         }
 
         card.appendChild(body);
+        card.addEventListener("click", () => showFeaturedGame(game));
         gamesContainer.appendChild(card);
       });
+
+      showFeaturedGame(games[0]);
+
+      const previous = document.getElementById("games-prev");
+      const next = document.getElementById("games-next");
+      const scrollByCard = direction => {
+        const firstCard = gamesContainer.querySelector(".game-card");
+        if (!firstCard) return;
+        const amount = firstCard.getBoundingClientRect().width + 20;
+        gamesContainer.scrollBy({ left: direction * amount, behavior: "smooth" });
+      };
+      previous?.addEventListener("click", () => scrollByCard(-1));
+      next?.addEventListener("click", () => scrollByCard(1));
+
+      gamesContainer.addEventListener("scroll", () => {
+        const cards = [...gamesContainer.querySelectorAll(".game-card")];
+        const bounds = gamesContainer.getBoundingClientRect();
+        let nearest = null, nearestDistance = Infinity;
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const distance = Math.abs(rect.left - bounds.left);
+          if (distance < nearestDistance) { nearestDistance = distance; nearest = card; }
+        });
+        if (nearest) showFeaturedGame(games[Number(nearest.dataset.gameIndex)]);
+      }, { passive: true });
     })
     .catch(error => {
       console.error(error);

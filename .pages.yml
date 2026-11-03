@@ -6,6 +6,7 @@ media:
     - jpeg
     - png
     - webp
+    - gif
 
 content:
   - name: games
@@ -32,6 +33,10 @@ content:
 
       - name: image
         label: Cover Image
+        type: image
+
+      - name: gameplayGif
+        label: Gameplay GIF
         type: image
 
       - name: status
