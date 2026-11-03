@@ -435,39 +435,68 @@
   }
 
   // Render games from the central configuration
-  const gamesContainer = document.getElementById("games-grid");
+// Load games from Pages CMS catalogue
+const gamesContainer = document.getElementById("games-grid");
 
-  if (gamesContainer && config && Array.isArray(config.games)) {
-    gamesContainer.innerHTML = "";
+if (gamesContainer) {
+  fetch("./data/games.json")
+    .then(response => {
+      if (!response.ok) throw new Error("Could not load games");
+      return response.json();
+    })
+    .then(games => {
+      gamesContainer.innerHTML = "";
 
-    config.games.forEach((game, index) => {
-      const card = document.createElement("div");
-      card.className = "game-card";
+      games.forEach((game, index) => {
+        const card = document.createElement("div");
+        card.className = "game-card";
 
-      const status = document.createElement("div");
-      status.className = "status";
-      status.textContent =
-        String(index + 1).padStart(2, "0") + " / " + game.status;
+        const status = document.createElement("div");
+        status.className = "status";
+        status.textContent =
+          String(index + 1).padStart(2, "0") +
+          " / " + (game.status || "Coming Soon");
 
-      const title = document.createElement("h3");
-      title.textContent = game.title;
+        card.appendChild(status);
 
-      const description = document.createElement("p");
-      description.textContent = game.description;
+        if (game.image) {
+          const image = document.createElement("img");
+          image.src = "./" + game.image;
+          image.alt = game.title;
+          image.style.width = "100%";
+          image.style.maxHeight = "220px";
+          image.style.objectFit = "cover";
+          image.style.borderRadius = "8px";
+          image.style.margin = "15px 0";
+          card.appendChild(image);
+        }
 
-      card.append(status, title, description);
+        const title = document.createElement("h3");
+        title.textContent = game.title;
+        card.appendChild(title);
 
-      if (game.page) {
-        const link = document.createElement("a");
-        link.href = game.page;
-        link.className = "button";
-        link.textContent = "EXPLORE GAME →";
-        card.appendChild(link);
-      }
+        const description = document.createElement("p");
+        description.textContent = game.description;
+        card.appendChild(description);
 
-      gamesContainer.appendChild(card);
+        if (game.playStore) {
+          const link = document.createElement("a");
+          link.href = game.playStore;
+          link.className = "button";
+          link.textContent = "GET THE GAME →";
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          card.appendChild(link);
+        }
+
+        gamesContainer.appendChild(card);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      gamesContainer.textContent = "Games are temporarily unavailable.";
     });
-  }
+} 
 </script>
 </body>
 </html>
