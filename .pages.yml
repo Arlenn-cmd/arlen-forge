@@ -1,0 +1,52 @@
+media:
+  input: assets/games
+  output: assets/games
+  extensions:
+    - jpg
+    - jpeg
+    - png
+    - webp
+
+content:
+  - name: games
+    label: Games Catalogue
+    type: file
+    path: data/games.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Game ID
+        type: string
+        required: true
+
+      - name: title
+        label: Game Title
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: image
+        label: Cover Image
+        type: image
+
+      - name: status
+        label: Game Status
+        type: select
+        options:
+          values:
+            - In Development
+            - Coming Soon
+            - Available
+
+      - name: playStore
+        label: Google Play Link
+        type: string
+
+      - name: page
+        label: Game Page
+        type: string
