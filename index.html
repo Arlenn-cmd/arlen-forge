@@ -462,6 +462,41 @@
       emailButton.href = "mailto:" + config.email;
     }
   }
+
+  // Render games from the central configuration
+  const gamesContainer = document.getElementById("games-grid");
+
+  if (gamesContainer && config && Array.isArray(config.games)) {
+    gamesContainer.innerHTML = "";
+
+    config.games.forEach((game, index) => {
+      const card = document.createElement("div");
+      card.className = "game-card";
+
+      const status = document.createElement("div");
+      status.className = "status";
+      status.textContent =
+        String(index + 1).padStart(2, "0") + " / " + game.status;
+
+      const title = document.createElement("h3");
+      title.textContent = game.title;
+
+      const description = document.createElement("p");
+      description.textContent = game.description;
+
+      card.append(status, title, description);
+
+      if (game.page) {
+        const link = document.createElement("a");
+        link.href = game.page;
+        link.className = "button";
+        link.textContent = "EXPLORE GAME →";
+        card.appendChild(link);
+      }
+
+      gamesContainer.appendChild(card);
+    });
+  }
 </script>
 </body>
 </html>
