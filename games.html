@@ -47,7 +47,11 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 <main><section class="page-hero"><div class="container"><div class="eyebrow">OUR WORK</div><h1>GAMES & PROJECTS.</h1><p class="lead">Discover the experiences currently being developed and published by ARLEN FORGE.</p></div></section>
 <section class="content"><div class="container"><div class="section-label">OUR WORK</div><h2>Games &amp; Projects</h2>
 <p style="color:var(--muted);margin:8px 0 28px">Explore the experiences currently being developed and published by ARLEN FORGE.</p>
-<div class="games-grid" id="games-grid"><p style="color:var(--muted)">Loading games...</p></div>
+<div class="games-grid" id="games-grid" aria-label="Swipe through games"><p style="color:var(--muted)">Loading games...</p></div>
+<div class="carousel-controls" style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px">
+<button type="button" id="games-prev" style="background:#191a1f;color:#ededed;border:1px solid #292b31;padding:9px 14px;cursor:pointer">←</button>
+<button type="button" id="games-next" style="background:#191a1f;color:#ededed;border:1px solid #292b31;padding:9px 14px;cursor:pointer">→</button>
+</div>
 <script>
 fetch("./data/games.json").then(r=>{if(!r.ok)throw new Error("Could not load games");return r.json()})
 .then(games=>{const grid=document.getElementById("games-grid");grid.innerHTML="";
@@ -62,6 +66,10 @@ if(game.playStore){const a=document.createElement("a");a.className="game-link";a
 else if(game.page){const a=document.createElement("a");a.className="game-link";a.href=game.page;a.textContent="EXPLORE GAME";body.appendChild(a);}
 card.appendChild(body);grid.appendChild(card);});})
 .catch(()=>{document.getElementById("games-grid").textContent="Games are temporarily unavailable. Please try again later.";});
+const rail=document.getElementById("games-grid");
+const step=()=>{const c=rail.querySelector(".game-card");return c?c.getBoundingClientRect().width+20:300;};
+document.getElementById("games-prev")?.addEventListener("click",()=>rail.scrollBy({left:-step(),behavior:"smooth"}));
+document.getElementById("games-next")?.addEventListener("click",()=>rail.scrollBy({left:step(),behavior:"smooth"}));
 </script></div></section></main><footer><div class="container footer-inner">
 <div><strong style="color:#ededed">ARLEN <span style="color:#f36b32">FORGE.</span></strong><p>© 2026 ARLEN FORGE. All rights reserved.</p></div>
 <div class="footer-links"><a href="./">Home</a><a href="./games.html">Games</a><a href="./about.html">About</a><a href="./support.html">Support</a><a href="./contact.html">Contact</a><a href="./privacy-policy.html">Privacy</a><a href="./terms.html">Terms</a></div>
